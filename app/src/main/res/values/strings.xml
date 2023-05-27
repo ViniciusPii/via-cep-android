@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="home_search">Pesquisar</string>
+    <string name="home_hint">Digite o CEP</string>
+</resources>
