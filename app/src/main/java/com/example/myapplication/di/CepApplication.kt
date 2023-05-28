@@ -1,6 +1,7 @@
 package com.example.myapplication.di
 
 import android.app.Application
+import com.example.myapplication.models.converters.AddressConverter
 import com.example.myapplication.repositories.CepRepository
 import com.example.myapplication.repositories.CepRepositoryImpl
 import com.example.myapplication.rest.RetrofitService
@@ -20,7 +21,8 @@ class CepApplication : Application() {
 
     private val appModule = module {
         single { RetrofitService.providerCepApi() }
-        single<CepRepository> { CepRepositoryImpl(cepApi = get()) }
+        single<CepRepository> { CepRepositoryImpl(cepApi = get(), addressConverter = get()) }
+        factory { AddressConverter() }
         viewModel { CepViewModel(cepRepository = get()) }
     }
 }

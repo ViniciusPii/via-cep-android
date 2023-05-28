@@ -7,14 +7,17 @@ import com.example.myapplication.models.converters.AddressConverter
 import retrofit2.HttpException
 import java.io.IOException
 
-class CepRepositoryImpl(private val cepApi: CepApi) : CepRepository {
+class CepRepositoryImpl(
+    private val cepApi: CepApi,
+    private val addressConverter: AddressConverter
+) : CepRepository {
     override suspend fun fetchCepDetails(cep: String): Resource<Address> {
         return try {
             val response = cepApi.fetchCepDetails(cep)
             if (response.isSuccessful) {
                 val cepDetails = response.body()
                 if (cepDetails?.cep != null) {
-                    val address = AddressConverter.converter(cepDetails)
+                    val address = addressConverter.converter(cepDetails)
                     Resource.Success(address)
                 } else {
                     Resource.Error("CEP não encontrado")

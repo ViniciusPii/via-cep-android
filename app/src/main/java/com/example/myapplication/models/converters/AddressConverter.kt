@@ -3,7 +3,7 @@ package com.example.myapplication.models.converters
 import com.example.myapplication.models.Address
 import com.example.myapplication.models.response.AddressResponse
 
-object AddressConverter {
+class AddressConverter {
     fun converter(addressResponse: AddressResponse): Address {
         return Address(
             cep = addressResponse.cep,
