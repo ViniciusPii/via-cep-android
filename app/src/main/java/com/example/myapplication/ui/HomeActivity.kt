@@ -35,6 +35,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         configureListeners()
+
         viewModel.cepDetails.observe(this, cepObserver)
     }
 
@@ -68,7 +69,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun configureListeners() {
         binding.searchButton.setOnClickListener {
-            val cep = binding.cepEditText.text.toString()
+            val cep = binding.cepEditText.unMasked
             hideKeyboard()
             viewModel.fetchCepDetails(cep)
         }
