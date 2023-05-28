@@ -3,8 +3,8 @@
     <string name="home_search">Pesquisar</string>
     <string name="home_hint">Digite o CEP</string>
     <string name="cep_label">CEP - %s</string>
-    <string name="logradouro_label">Logradouro - %s</string>
-    <string name="bairro_label">Bairro - %s</string>
-    <string name="cidade_label">Cidade - %s</string>
-    <string name="estado_label">Estado - %s</string>
+    <string name="street_label">Logradouro - %s</string>
+    <string name="neighborhood_label">Bairro - %s</string>
+    <string name="city_label">Cidade - %s</string>
+    <string name="state_label">Estado - %s</string>
 </resources>

@@ -35,16 +35,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         configureListeners()
-    }
-
-    override fun onResume() {
-        super.onResume()
         viewModel.cepDetails.observe(this, cepObserver)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.cepDetails.removeObserver(cepObserver)
     }
 
     private fun showLoading() {
@@ -61,11 +52,10 @@ class HomeActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.GONE
 
         binding.cepTextView.text = getString(R.string.cep_label, cep.cep)
-        binding.logradouroTextView.text =
-            getString(R.string.logradouro_label, cep.street)
-        binding.bairroTextView.text = getString(R.string.bairro_label, cep.neighborhood)
-        binding.cidadeTextView.text = getString(R.string.cidade_label, cep.city)
-        binding.estadoTextView.text = getString(R.string.estado_label, cep.state)
+        binding.logradouroTextView.text = getString(R.string.street_label, cep.street)
+        binding.bairroTextView.text = getString(R.string.neighborhood_label, cep.neighborhood)
+        binding.cidadeTextView.text = getString(R.string.city_label, cep.city)
+        binding.estadoTextView.text = getString(R.string.state_label, cep.state)
     }
 
     private fun showError(message: String) {
