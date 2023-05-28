@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.models.Cep
-import com.example.myapplication.repositories.CepRepository
+import com.example.myapplication.repositories.CepRepositoryImpl
 import kotlinx.coroutines.launch
 
-class CepViewModel(private val cepRepository: CepRepository) : ViewModel() {
+class CepViewModel(private val cepRepository: CepRepositoryImpl) : ViewModel() {
     private val _cepDetails = MutableLiveData<Resource<Cep>>()
     val cepDetails: LiveData<Resource<Cep>> get() = _cepDetails
 
