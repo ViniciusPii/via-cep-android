@@ -9,13 +9,13 @@ import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 
-class CepRepositoryImpl(
+class AddressRepositoryImpl(
     private val cepApi: CepApi,
     private val addressConverter: AddressConverter
-) : CepRepository {
-    override suspend fun fetchCepDetails(cep: String): State<Address> {
+) : AddressRepository {
+    override suspend fun fetchAddress(cep: String): State<Address> {
         return try {
-            val response: Response<AddressResponse> = cepApi.fetchCepDetails(cep)
+            val response: Response<AddressResponse> = cepApi.fetchAddress(cep)
             if (response.isSuccessful) {
                 val addressResponse: AddressResponse? = response.body()
                 if (addressResponse?.cep != null) {

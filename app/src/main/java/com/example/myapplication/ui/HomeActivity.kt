@@ -11,7 +11,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityHomeBinding
 import com.example.myapplication.models.Address
 import com.example.myapplication.models.State
-import com.example.myapplication.ui.viewmodels.CepViewModel
+import com.example.myapplication.ui.viewmodels.AddressViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -20,7 +20,7 @@ class HomeActivity : AppCompatActivity() {
         ActivityHomeBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: CepViewModel by viewModel()
+    private val viewModel: AddressViewModel by viewModel()
 
     private val stateObserver = Observer<State<Address>> { state ->
         when (state) {
@@ -72,7 +72,7 @@ class HomeActivity : AppCompatActivity() {
             hideKeyboard()
 
             val cep = binding.cepEditText.unMasked
-            viewModel.fetchCepDetails(cep)
+            viewModel.fetchAddress(cep)
         }
     }
 

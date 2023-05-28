@@ -7,5 +7,5 @@ import retrofit2.http.Path
 
 interface CepApi {
     @GET("{cep}/json")
-    suspend fun fetchCepDetails(@Path("cep") cep: String): Response<AddressResponse>
+    suspend fun fetchAddress(@Path("cep") cep: String): Response<AddressResponse>
 }
