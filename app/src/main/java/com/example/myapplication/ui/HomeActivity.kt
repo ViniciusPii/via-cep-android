@@ -62,10 +62,10 @@ class HomeActivity : AppCompatActivity() {
 
         binding.cepTextView.text = getString(R.string.cep_label, cep.cep)
         binding.logradouroTextView.text =
-            getString(R.string.logradouro_label, cep.logradouro)
-        binding.bairroTextView.text = getString(R.string.bairro_label, cep.bairro)
-        binding.cidadeTextView.text = getString(R.string.cidade_label, cep.localidade)
-        binding.estadoTextView.text = getString(R.string.estado_label, cep.uf)
+            getString(R.string.logradouro_label, cep.street)
+        binding.bairroTextView.text = getString(R.string.bairro_label, cep.neighborhood)
+        binding.cidadeTextView.text = getString(R.string.cidade_label, cep.city)
+        binding.estadoTextView.text = getString(R.string.estado_label, cep.state)
     }
 
     private fun showError(message: String) {

@@ -3,6 +3,7 @@ package com.example.myapplication.repositories
 import com.example.myapplication.api.CepApi
 import com.example.myapplication.models.Address
 import com.example.myapplication.models.Resource
+import com.example.myapplication.models.converters.AddressConverter
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -13,7 +14,8 @@ class CepRepositoryImpl(private val cepApi: CepApi) : CepRepository {
             if (response.isSuccessful) {
                 val cepDetails = response.body()
                 if (cepDetails?.cep != null) {
-                    Resource.Success(cepDetails)
+                    val address = AddressConverter.converter(cepDetails)
+                    Resource.Success(address)
                 } else {
                     Resource.Error("CEP não encontrado")
                 }
