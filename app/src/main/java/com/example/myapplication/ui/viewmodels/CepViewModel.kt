@@ -17,7 +17,7 @@ class CepViewModel(private val cepRepository: CepRepository) : ViewModel() {
         viewModelScope.launch {
             _address.value = State.Loading
             try {
-                val resource = cepRepository.fetchCepDetails(cep)
+                val resource: State<Address> = cepRepository.fetchCepDetails(cep)
                 _address.value = resource
             } catch (e: Exception) {
                 _address.value = State.Error(e.message.toString())
