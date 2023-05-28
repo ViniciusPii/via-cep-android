@@ -2,6 +2,7 @@ package com.example.myapplication.di
 
 import android.app.Application
 import com.example.myapplication.api.CepApi
+import com.example.myapplication.repositories.CepRepository
 import com.example.myapplication.repositories.CepRepositoryImpl
 import com.example.myapplication.ui.viewmodels.CepViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -26,7 +27,7 @@ class CepApplication : Application() {
                 .create(CepApi::class.java)
         }
 
-        single { CepRepositoryImpl(cepApi = get()) }
+        single<CepRepository> { CepRepositoryImpl(cepApi = get()) }
         viewModel { CepViewModel(cepRepository = get()) }
     }
 }

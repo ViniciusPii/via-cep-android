@@ -5,24 +5,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.models.Cep
-import com.example.myapplication.repositories.CepRepositoryImpl
+import com.example.myapplication.models.Resource
+import com.example.myapplication.repositories.CepRepository
 import kotlinx.coroutines.launch
 
-class CepViewModel(private val cepRepository: CepRepositoryImpl) : ViewModel() {
+class CepViewModel(private val cepRepository: CepRepository) : ViewModel() {
     private val _cepDetails = MutableLiveData<Resource<Cep>>()
     val cepDetails: LiveData<Resource<Cep>> get() = _cepDetails
 
     fun fetchCepDetails(cep: String) {
         viewModelScope.launch {
             _cepDetails.value = Resource.Loading
-            val resource = cepRepository.fetchCepDetails(cep)
-            _cepDetails.value = resource
+            try {
+                val resource = cepRepository.fetchCepDetails(cep)
+                _cepDetails.value = resource
+            } catch (e: Exception) {
+                _cepDetails.value = Resource.Error(e.message.toString())
+            }
         }
-    }
-
-    sealed class Resource<out T> {
-        object Loading : Resource<Nothing>()
-        data class Success<out T>(val data: T) : Resource<T>()
-        data class Error(val message: String) : Resource<Nothing>()
     }
 }

@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityHomeBinding
 import com.example.myapplication.models.Cep
+import com.example.myapplication.models.Resource
 import com.example.myapplication.ui.viewmodels.CepViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -19,23 +22,29 @@ class HomeActivity : AppCompatActivity() {
 
     private val viewModel: CepViewModel by viewModel()
 
+    private val cepObserver = Observer<Resource<Cep>> { resource ->
+        when (resource) {
+            is Resource.Loading -> showLoading()
+            is Resource.Success -> showCepDetails(resource.data)
+            is Resource.Error -> showError(resource.message)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.searchButton.setOnClickListener {
-            val cep = binding.cepEditText.text.toString()
-            hideKeyboard()
-            viewModel.fetchCepDetails(cep)
-        }
+        configureListeners()
+    }
 
-        viewModel.cepDetails.observe(this) { resource ->
-            when (resource) {
-                is CepViewModel.Resource.Loading -> showLoading()
-                is CepViewModel.Resource.Success -> showCepDetails(resource.data)
-                is CepViewModel.Resource.Error -> showError(resource.message)
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        viewModel.cepDetails.observe(this, cepObserver)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.cepDetails.removeObserver(cepObserver)
     }
 
     private fun showLoading() {
@@ -51,11 +60,12 @@ class HomeActivity : AppCompatActivity() {
         binding.cepEditText.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
 
-        binding.cepTextView.text = cep.cep
-        binding.logradouroTextView.text = cep.logradouro
-        binding.bairroTextView.text = cep.bairro
-        binding.cidadeTextView.text = cep.localidade
-        binding.estadoTextView.text = cep.uf
+        binding.cepTextView.text = getString(R.string.cep_label, cep.cep)
+        binding.logradouroTextView.text =
+            getString(R.string.logradouro_label, cep.logradouro)
+        binding.bairroTextView.text = getString(R.string.bairro_label, cep.bairro)
+        binding.cidadeTextView.text = getString(R.string.cidade_label, cep.localidade)
+        binding.estadoTextView.text = getString(R.string.estado_label, cep.uf)
     }
 
     private fun showError(message: String) {
@@ -66,8 +76,17 @@ class HomeActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    private fun configureListeners() {
+        binding.searchButton.setOnClickListener {
+            val cep = binding.cepEditText.text.toString()
+            hideKeyboard()
+            viewModel.fetchCepDetails(cep)
+        }
+    }
+
     private fun hideKeyboard() {
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 
