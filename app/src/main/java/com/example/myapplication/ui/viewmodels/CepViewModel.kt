@@ -5,22 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.models.Address
-import com.example.myapplication.models.Resource
+import com.example.myapplication.models.State
 import com.example.myapplication.repositories.CepRepository
 import kotlinx.coroutines.launch
 
 class CepViewModel(private val cepRepository: CepRepository) : ViewModel() {
-    private val _cepDetails = MutableLiveData<Resource<Address>>()
-    val cepDetails: LiveData<Resource<Address>> get() = _cepDetails
+    private val _address = MutableLiveData<State<Address>>()
+    val address: LiveData<State<Address>> get() = _address
 
     fun fetchCepDetails(cep: String) {
         viewModelScope.launch {
-            _cepDetails.value = Resource.Loading
+            _address.value = State.Loading
             try {
                 val resource = cepRepository.fetchCepDetails(cep)
-                _cepDetails.value = resource
+                _address.value = resource
             } catch (e: Exception) {
-                _cepDetails.value = Resource.Error(e.message.toString())
+                _address.value = State.Error(e.message.toString())
             }
         }
     }

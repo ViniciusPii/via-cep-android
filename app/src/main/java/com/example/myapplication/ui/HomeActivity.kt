@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityHomeBinding
 import com.example.myapplication.models.Address
-import com.example.myapplication.models.Resource
+import com.example.myapplication.models.State
 import com.example.myapplication.ui.viewmodels.CepViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,11 +22,11 @@ class HomeActivity : AppCompatActivity() {
 
     private val viewModel: CepViewModel by viewModel()
 
-    private val cepObserver = Observer<Resource<Address>> { resource ->
-        when (resource) {
-            is Resource.Loading -> showLoading()
-            is Resource.Success -> showCepDetails(resource.data)
-            is Resource.Error -> showError(resource.message)
+    private val stateObserver = Observer<State<Address>> { state ->
+        when (state) {
+            is State.Loading -> showLoading()
+            is State.Success -> showCepDetails(state.data)
+            is State.Error -> showError(state.message)
         }
     }
 
@@ -36,7 +36,7 @@ class HomeActivity : AppCompatActivity() {
 
         configureListeners()
 
-        viewModel.cepDetails.observe(this, cepObserver)
+        viewModel.address.observe(this, stateObserver)
     }
 
     private fun showLoading() {
@@ -70,7 +70,9 @@ class HomeActivity : AppCompatActivity() {
     private fun configureListeners() {
         binding.searchButton.setOnClickListener {
             val cep = binding.cepEditText.unMasked
+
             hideKeyboard()
+
             viewModel.fetchCepDetails(cep)
         }
     }
