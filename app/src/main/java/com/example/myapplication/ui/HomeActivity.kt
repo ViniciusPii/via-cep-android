@@ -53,10 +53,10 @@ class HomeActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.GONE
 
         binding.cepTextView.text = getString(R.string.cep_label, cep.cep)
-        binding.logradouroTextView.text = getString(R.string.street_label, cep.street)
-        binding.bairroTextView.text = getString(R.string.neighborhood_label, cep.neighborhood)
-        binding.cidadeTextView.text = getString(R.string.city_label, cep.city)
-        binding.estadoTextView.text = getString(R.string.state_label, cep.state)
+        binding.streetTextView.text = getString(R.string.street_label, cep.street)
+        binding.neighborhoodTextView.text = getString(R.string.neighborhood_label, cep.neighborhood)
+        binding.cityTextView.text = getString(R.string.city_label, cep.city)
+        binding.stateTextView.text = getString(R.string.state_label, cep.state)
     }
 
     private fun showError(message: String) {
