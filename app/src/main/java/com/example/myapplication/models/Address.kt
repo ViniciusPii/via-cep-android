@@ -1,6 +1,6 @@
 package com.example.myapplication.models
 
-data class Cep(
+data class Address(
     val cep: String,
     val logradouro: String,
     val bairro: String,

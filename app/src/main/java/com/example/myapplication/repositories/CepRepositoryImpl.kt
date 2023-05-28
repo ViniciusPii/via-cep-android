@@ -1,13 +1,13 @@
 package com.example.myapplication.repositories
 
 import com.example.myapplication.api.CepApi
-import com.example.myapplication.models.Cep
+import com.example.myapplication.models.Address
 import com.example.myapplication.models.Resource
 import retrofit2.HttpException
 import java.io.IOException
 
 class CepRepositoryImpl(private val cepApi: CepApi) : CepRepository {
-    override suspend fun fetchCepDetails(cep: String): Resource<Cep> {
+    override suspend fun fetchCepDetails(cep: String): Resource<Address> {
         return try {
             val response = cepApi.fetchCepDetails(cep)
             if (response.isSuccessful) {

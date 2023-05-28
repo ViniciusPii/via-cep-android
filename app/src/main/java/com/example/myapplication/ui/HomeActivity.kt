@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityHomeBinding
-import com.example.myapplication.models.Cep
+import com.example.myapplication.models.Address
 import com.example.myapplication.models.Resource
 import com.example.myapplication.ui.viewmodels.CepViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
 
     private val viewModel: CepViewModel by viewModel()
 
-    private val cepObserver = Observer<Resource<Cep>> { resource ->
+    private val cepObserver = Observer<Resource<Address>> { resource ->
         when (resource) {
             is Resource.Loading -> showLoading()
             is Resource.Success -> showCepDetails(resource.data)
@@ -54,7 +54,7 @@ class HomeActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    private fun showCepDetails(cep: Cep) {
+    private fun showCepDetails(cep: Address) {
         binding.cardView.visibility = View.VISIBLE
         binding.searchButton.visibility = View.VISIBLE
         binding.cepEditText.visibility = View.VISIBLE
