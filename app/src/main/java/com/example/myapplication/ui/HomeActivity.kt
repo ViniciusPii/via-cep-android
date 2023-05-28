@@ -25,7 +25,7 @@ class HomeActivity : AppCompatActivity() {
     private val stateObserver = Observer<State<Address>> { state ->
         when (state) {
             is State.Loading -> showLoading()
-            is State.Success -> showCepDetails(state.data)
+            is State.Success -> showAddress(state.data)
             is State.Error -> showError(state.message)
         }
     }
@@ -46,7 +46,7 @@ class HomeActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    private fun showCepDetails(cep: Address) {
+    private fun showAddress(cep: Address) {
         binding.cardView.visibility = View.VISIBLE
         binding.searchButton.visibility = View.VISIBLE
         binding.cepEditText.visibility = View.VISIBLE
@@ -69,10 +69,9 @@ class HomeActivity : AppCompatActivity() {
 
     private fun configureListeners() {
         binding.searchButton.setOnClickListener {
-            val cep = binding.cepEditText.unMasked
-
             hideKeyboard()
 
+            val cep = binding.cepEditText.unMasked
             viewModel.fetchCepDetails(cep)
         }
     }
