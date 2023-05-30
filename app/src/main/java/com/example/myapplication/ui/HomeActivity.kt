@@ -1,17 +1,17 @@
 package com.example.myapplication.ui
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityHomeBinding
 import com.example.myapplication.models.Address
-import com.example.myapplication.models.State
 import com.example.myapplication.ui.viewmodels.AddressViewModel
+import com.example.myapplication.ui.viewmodels.AddressViewModel.State
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
 
     private val viewModel: AddressViewModel by viewModel()
 
-    private val stateObserver = Observer<State<Address>> { state ->
+    private val stateObserver = Observer<State> { state ->
         when (state) {
             is State.Loading -> showLoading()
             is State.Success -> showAddress(state.data)
