@@ -7,7 +7,7 @@
     android:padding="16dp"
     tools:context=".ui.HomeActivity">
 
-    <EditText
+    <com.santalu.maskara.widget.MaskEditText
         android:id="@+id/cepEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +15,7 @@
         android:hint="@string/home_hint"
         android:imeOptions="actionDone"
         android:inputType="number"
+        app:mask="#####-###"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/searchButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,25 +66,25 @@
                 tools:text="CEP" />
 
             <TextView
-                android:id="@+id/logradouroTextView"
+                android:id="@+id/streetTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Logradouro" />
 
             <TextView
-                android:id="@+id/bairroTextView"
+                android:id="@+id/neighborhoodTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Bairro" />
 
             <TextView
-                android:id="@+id/cidadeTextView"
+                android:id="@+id/cityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Cidade" />
 
             <TextView
-                android:id="@+id/estadoTextView"
+                android:id="@+id/stateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Estado" />

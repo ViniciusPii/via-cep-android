@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityHomeBinding
 import com.example.myapplication.models.Address
-import com.example.myapplication.models.Resource
-import com.example.myapplication.ui.viewmodels.CepViewModel
+import com.example.myapplication.models.State
+import com.example.myapplication.ui.viewmodels.AddressViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
@@ -20,13 +20,13 @@ class HomeActivity : AppCompatActivity() {
         ActivityHomeBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: CepViewModel by viewModel()
+    private val viewModel: AddressViewModel by viewModel()
 
-    private val cepObserver = Observer<Resource<Address>> { resource ->
-        when (resource) {
-            is Resource.Loading -> showLoading()
-            is Resource.Success -> showCepDetails(resource.data)
-            is Resource.Error -> showError(resource.message)
+    private val stateObserver = Observer<State<Address>> { state ->
+        when (state) {
+            is State.Loading -> showLoading()
+            is State.Success -> showAddress(state.data)
+            is State.Error -> showError(state.message)
         }
     }
 
@@ -35,16 +35,8 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         configureListeners()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.cepDetails.observe(this, cepObserver)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.cepDetails.removeObserver(cepObserver)
+        viewModel.address.observe(this, stateObserver)
     }
 
     private fun showLoading() {
@@ -54,18 +46,17 @@ class HomeActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    private fun showCepDetails(cep: Address) {
+    private fun showAddress(cep: Address) {
         binding.cardView.visibility = View.VISIBLE
         binding.searchButton.visibility = View.VISIBLE
         binding.cepEditText.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
 
         binding.cepTextView.text = getString(R.string.cep_label, cep.cep)
-        binding.logradouroTextView.text =
-            getString(R.string.logradouro_label, cep.logradouro)
-        binding.bairroTextView.text = getString(R.string.bairro_label, cep.bairro)
-        binding.cidadeTextView.text = getString(R.string.cidade_label, cep.localidade)
-        binding.estadoTextView.text = getString(R.string.estado_label, cep.uf)
+        binding.streetTextView.text = getString(R.string.street_label, cep.street)
+        binding.neighborhoodTextView.text = getString(R.string.neighborhood_label, cep.neighborhood)
+        binding.cityTextView.text = getString(R.string.city_label, cep.city)
+        binding.stateTextView.text = getString(R.string.state_label, cep.state)
     }
 
     private fun showError(message: String) {
@@ -78,9 +69,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun configureListeners() {
         binding.searchButton.setOnClickListener {
-            val cep = binding.cepEditText.text.toString()
             hideKeyboard()
-            viewModel.fetchCepDetails(cep)
+
+            val cep = binding.cepEditText.unMasked
+            viewModel.fetchAddress(cep)
         }
     }
 
