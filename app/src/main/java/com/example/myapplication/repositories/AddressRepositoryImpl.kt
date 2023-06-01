@@ -17,7 +17,7 @@ class AddressRepositoryImpl(
             val response: Response<AddressResponse> = cepApi.fetchAddress(cep)
             if (response.isSuccessful) {
                 val addressResponse: AddressResponse? = response.body()
-                if (addressResponse?.cep != null) {
+                if (addressResponse != null) {
                     return addressConverter.converter(addressResponse)
                 } else {
                     throw Exception("CEP não encontrado")
